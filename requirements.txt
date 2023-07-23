@@ -1,0 +1,16 @@
+asgiref==3.7.2
+certifi==2023.5.7
+cffi==1.15.1
+charset-normalizer==3.1.0
+cryptography==40.0.2
+Django==4.2
+djangorestframework==3.14.0
+idna==3.4
+msal==1.22.0
+Office365-REST-Python-Client==2.4.1
+pycparser==2.21
+PyJWT==2.7.0
+pytz==2023.3
+requests==2.31.0
+sqlparse==0.4.4
+urllib3==2.0.2
