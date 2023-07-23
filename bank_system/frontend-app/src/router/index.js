@@ -5,7 +5,7 @@ import middlewarePipeline from "../router/middlewarePipeline";
 
 // middlewares
 // import guest from "../middlewares/guest";
-import auth from "../middlewares/auth";
+// import auth from "../middlewares/auth";
 // import optionalAuth from "../middlewares/optionalAuth";
 
 // auth routes
@@ -44,19 +44,19 @@ const routes = [
     path: "/loan-customer",
     name: "LoanCustomerForm",
     component: LoanCustomerForm,
-    meta: { middleware: [auth] },
+    meta: { guest: true /*middleware: [auth] */ },
   },
   {
     path: "/loan-provider",
     name: "LoanProviderForm",
     component: LoanProviderForm,
-    meta: { middleware: [auth] },
+    meta: { guest: true /*middleware: [auth] */ },
   },
   {
     path: "/personnel-bank",
     name: "PersonnelBankForm",
     component: PersonnelBankForm,
-    meta: { middleware: [auth] },
+    meta: { guest: true /*middleware: [auth] */ },
   },
 ];
 

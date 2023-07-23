@@ -51,15 +51,20 @@ export default {
     return {
       form: {
         amount: null,
-        term: null,
-        amoritization: 0,
+        term: 0,
+        amortization: 0,
       },
       showError: false,
+      plans: {
+        getPlans: "loans/plans",
+      },
     };
   },
   computed: {
     ...mapGetters({
-      plans: "loans/plans",
+      plans: {
+        getPlans: "loans/plans",
+      },
     }),
     caluclatedAmorization() {
       return this.form.amount / this.form.term;

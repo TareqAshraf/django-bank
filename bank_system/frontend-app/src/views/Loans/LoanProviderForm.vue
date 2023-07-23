@@ -42,11 +42,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      plans: "loans/plans",
+      //plans: "loans/plans",
     }),
-    planOptions() {
-      return this.plans.map((plan) => plan.name);
-    },
+    // planOptions() {
+    //   return this.plans.map((plan) => plan.name);
+    // },
   },
   methods: {
     ...mapActions(["createLoanProvider"]),
