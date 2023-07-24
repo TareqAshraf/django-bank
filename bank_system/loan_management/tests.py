@@ -14,11 +14,6 @@ from loan_management.models import (
 )
 from loan_management.serializers import (
     LoanProviderSerializer,
-    LoanCustomerSerializer,
-    BankPersonnelSerializer,
-    LoanPlanSerializer,
-    LoanFundSerializer,
-    LoanSerializer,
 )
 
 
