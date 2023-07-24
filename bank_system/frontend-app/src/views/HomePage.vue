@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <p>Heyyyyyy welcome to our blog, check out our posts</p>
+    <p>this task for Blnk</p>
+    <p>created by Tareq Ashraf</p>
   </div>
 </template>
   <script>

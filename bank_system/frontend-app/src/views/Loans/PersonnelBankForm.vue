@@ -1,62 +1,49 @@
 <template>
-  <div class="loan-customer-form">
-    <div>
-      <form @submit.prevent="submit">
-        <!-- name -->
-        <div>
-          <label for="name">name:</label>
-          <input type="text" name="name" v-model="form.name" />
-        </div>
+  <v-container>
+    <v-form @submit.prevent="submit">
+      <v-text-field label="Name" name="name" v-model="form.name"></v-text-field>
 
-        <!-- min_amount -->
-        <div>
-          <label for="min_amount">min amount:</label>
-          <input type="number" name="min_amount" v-model="form.min_amount" />
-        </div>
+      <v-text-field
+        label="Min Amount"
+        name="min_amount"
+        v-model="form.min_amount"
+      ></v-text-field>
 
-        <!-- max_amount -->
-        <div>
-          <label for="max_amount">max amount:</label>
-          <input type="number" name="max_amount" v-model="form.max_amount" />
-        </div>
+      <v-text-field
+        label="Max Amount"
+        name="max_amount"
+        v-model="form.max_amount"
+      ></v-text-field>
 
-        <!-- interest_rate -->
-        <div>
-          <label for="interest_rate">Interest rate:</label>
-          <input
-            type="number"
-            name="interest_rate"
-            v-model="form.interest_rate"
-          />
-        </div>
+      <v-text-field
+        label="Interest Rate"
+        name="interest_rate"
+        v-model="form.interest_rate"
+      ></v-text-field>
 
-        <!-- duration -->
-        <div>
-          <label for="duration">Interest rate:</label>
-          <input type="number" name="duration" v-model="form.duration" />
-        </div>
+      <v-text-field
+        label="Duration"
+        name="duration"
+        v-model="form.duration"
+      ></v-text-field>
 
-        <!-- loan_type -->
-        <div>
-          <label for="loan_type">loan plan:</label>
-          <v-select
-            name="loan_type"
-            v-model="form.loan_type"
-            :items="loanTypes"
-          />
-        </div>
+      <v-select
+        label="Loan Plan"
+        name="loan_type"
+        v-model="form.loan_type"
+        :items="loanTypes"
+      ></v-select>
 
-        <button type="submit">Submit</button>
-      </form>
+      <v-btn type="submit">Submit</v-btn>
+    </v-form>
 
-      <p v-if="showError" id="error">Invalid data</p>
-    </div>
-    Invalid data
-  </div>
+    <p v-if="showError" id="error">Invalid data</p>
+  </v-container>
 </template>
-    
+
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
+
 export default {
   name: "PersonnelBankForm",
   components: {},
@@ -68,27 +55,24 @@ export default {
         max_amount: null,
         interest_rate: null,
         duration: null,
-        loan_typ: null,
+        loan_type: null,
       },
-      loanTypes: {
-        loan_provider: "Loan Provider",
-        loan_customer: "Loan Customer",
-      },
+      loanTypes: [
+        {
+          text: "Loan Provider",
+          value: "loan_provider",
+        },
+        {
+          text: "Loan Customer",
+          value: "loan_customer",
+        },
+      ],
       showError: false,
     };
-  },
-  computed: {
-    ...mapGetters({
-      plans: "loans/plans",
-    }),
-    planOptions() {
-      return this.plans.map((plan) => plan.name);
-    },
   },
   methods: {
     ...mapActions(["createPersonnelBank"]),
     submit() {
-      // this.$store.dispatch('loans/createPersonnelBank', this.form)
       this.createPersonnelBank(this.form)
         .then((personnelBank) => {
           console.log({ personnelBank });
@@ -102,31 +86,28 @@ export default {
   },
 };
 </script>
-    
+
 <style scoped>
 * {
   box-sizing: border-box;
 }
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
+
+/* Add a margin to the form to make it look better */
+.personnel-bank-form {
+  margin: 20px;
 }
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 30px;
-}
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-input {
+
+/* Use the v-text-field component to render the name, min_amount, max_amount, interest_rate, duration, and loan_type fields */
+v-text-field {
   margin: 5px;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
-  padding: 10px;
-  border-radius: 30px;
 }
+
+/* Use the v-select component to render the loanTypes options */
+v-select {
+  margin: 5px;
+}
+
+/* Add a red background color to the error message */
 #error {
   color: red;
 }

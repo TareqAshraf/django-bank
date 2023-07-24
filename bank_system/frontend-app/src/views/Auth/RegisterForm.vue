@@ -1,100 +1,114 @@
 <template>
-  <div class="register">
-    <div>
-      <form @submit.prevent="submit">
-        <div>
-          <label for="username">Username:</label>
-          <input type="text" name="username" v-model="form.username" />
-        </div>
-        <div>
-          <label for="role">Role:</label>
-          <v-select name="role" v-model="form.role" :items="items" />
-        </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" name="password" v-model="form.password" />
-        </div>
-        <div>
-          <label for="confirmPassword">Confirm Password:</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            v-model="form.confirmPassword"
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  <v-container class="register">
+    <v-form @submit.prevent="submit">
+      <v-text-field
+        label="Username"
+        name="username"
+        v-model="form.username"
+        min-width="50"
+      />
+
+      <v-select
+        label="Role"
+        name="role"
+        v-model="form.role"
+        :items="items"
+        min-width="50"
+      ></v-select>
+
+      <v-text-field
+        label="Password"
+        name="password"
+        v-model="form.password"
+        type="password"
+        min-width="50"
+      />
+
+      <v-text-field
+        label="Confirm Password"
+        name="confirmPassword"
+        v-model="form.confirmPassword"
+        type="password"
+        min-width="50"
+      />
+
+      <v-btn type="submit">Submit</v-btn>
+    </v-form>
+
     <p v-if="showError" id="error">Username already exists</p>
-  </div>
+  </v-container>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+
 export default {
   name: "RegisterForm",
+  components: {},
   data() {
     return {
       form: {
         username: null,
         password: null,
         confirmPassword: null,
-        role: 1,
+        role: null,
       },
       showError: false,
-
       items: [
         {
-          text: "Option 1",
+          text: "Loan Provider",
           value: 1,
         },
         {
-          text: "Option 2",
+          text: "Loan Customer",
           value: 2,
+        },
+        {
+          text: "Bank Personnel",
+          value: 3,
         },
       ],
     };
   },
   methods: {
-    ...mapActions(["Register"]),
-    async submit() {
-      try {
-        await this.Register(this.form);
-        this.$router.push("/posts");
-        this.showError = false;
-      } catch (error) {
-        this.showError = true;
-      }
+    ...mapActions(["register"]),
+    // submit() {
+    //   this.register({
+    //     username: this.form.username,
+    //     password: this.form.password,
+    //     role: this.form.role,
+    //   })
+    //     .then(() => {
+    //       this.$router.push("/posts");
+    //       this.showError = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log({ error });
+    //       this.showError = true;
+    //     });
+    // },
+
+    submit() {
+      this.register({
+        username: this.form.username,
+        password: this.form.password,
+        role: this.form.role,
+      })
+        .then(() => {
+          if (this.form.role === 1) {
+            this.$router.push("/loan-provider");
+          } else if (this.form.role === 2) {
+            this.$router.push("/loan-customer");
+          } else if (this.form.role === 3) {
+            this.$router.push("/personnel-bank");
+          }
+          this.showError = false;
+        })
+        .catch((error) => {
+          console.log({ error });
+          this.showError = true;
+        });
     },
   },
 };
 </script>
-
-<style scoped>
-* {
-  box-sizing: border-box;
-}
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 30px;
-}
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-input {
-  margin: 5px;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
-  padding: 10px;
-  border-radius: 30px;
-}
-#error {
-  color: red;
-}
-</style>

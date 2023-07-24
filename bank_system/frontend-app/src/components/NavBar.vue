@@ -6,7 +6,10 @@
     </span>
     <span v-else>
       <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link>
+      <router-link to="/login">Login</router-link>|
+      <router-link to="/loan-customer">loan customer</router-link>|
+      <router-link to="/loan-provider">provider</router-link>|
+      <router-link to="/personnel-bank">bank</router-link>
     </span>
   </div>
 </template>

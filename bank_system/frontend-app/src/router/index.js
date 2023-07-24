@@ -44,19 +44,19 @@ const routes = [
     path: "/loan-customer",
     name: "LoanCustomerForm",
     component: LoanCustomerForm,
-    meta: { guest: true /*middleware: [auth] */ },
+    meta: { middleware: [auth] },
   },
   {
     path: "/loan-provider",
     name: "LoanProviderForm",
     component: LoanProviderForm,
-    meta: { guest: true /*middleware: [auth] */ },
+    meta: { middleware: [auth] },
   },
   {
     path: "/personnel-bank",
     name: "PersonnelBankForm",
     component: PersonnelBankForm,
-    meta: { guest: true /*middleware: [auth] */ },
+    meta: { middleware: [auth] },
   },
 ];
 

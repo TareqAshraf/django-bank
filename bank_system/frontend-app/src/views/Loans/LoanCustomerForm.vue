@@ -1,63 +1,63 @@
 <template>
-  <div class="loan-customer-form">
-    <div>
-      <form @submit.prevent="submit">
-        <div>
-          <label for="amount">amount:</label>
-          <input type="number" name="amount" v-model="form.amount" />
-        </div>
+  <v-container>
+    <v-form @submit.prevent="submit">
+      <v-text-field
+        label="Amount"
+        name="amount"
+        v-model="form.amount"
+      ></v-text-field>
 
-        <div>
-          <label for="term">term:</label>
-          <input type="text" name="term" v-model="form.term" />
-        </div>
+      <v-select
+        label="Term"
+        name="term"
+        v-model="form.term"
+        :items="plans"
+      ></v-select>
 
-        <!-- term -->
-        <div>
-          <label for="term">Term:</label>
-          <v-select
-            type="number"
-            name="term"
-            v-model="form.term"
-            :items="termOptions"
-          />
-        </div>
+      <v-text-field
+        label="Amortization"
+        name="amoritization"
+        v-model="form.amoritization"
+      ></v-text-field>
 
-        <div>
-          <label for="amoritization">amoritization:</label>
-          <!-- <input
-            type="number"
-            name="amoritization"
-            v-model="form.amoritization"
-          /> -->
-          <!-- <div v-text="caluclatedAmorization" /> -->
-          <div v-text="form.amoritization" />
-        </div>
+      <v-btn type="submit">Submit</v-btn>
+    </v-form>
 
-        <button type="submit">Submit</button>
-      </form>
-
-      <p v-if="showError" id="error">Invalid data</p>
-    </div>
-  </div>
+    <p v-if="showError" id="error">Invalid data</p>
+  </v-container>
 </template>
-  
+
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "LoanCustomerForm",
   components: {},
   data() {
     return {
       form: {
-        amount: null,
+        amount: 0,
         term: 0,
         amortization: 0,
       },
       showError: false,
-      plans: {
-        getPlans: "loans/plans",
-      },
+      plans: [
+        {
+          text: "1 year",
+          value: 1,
+        },
+        {
+          text: "2 years",
+          value: 2,
+        },
+        {
+          text: "3 years",
+          value: 3,
+        },
+      ],
+      // plans: {
+      //   getPlans: "loans/plans",
+      // },
     };
   },
   computed: {
@@ -67,7 +67,7 @@ export default {
       },
     }),
     caluclatedAmorization() {
-      return this.form.amount / this.form.term;
+      return this.form.amount / (this.form.term * 12);
     },
     termOptions: function () {
       let terms = {};
@@ -81,10 +81,15 @@ export default {
     "form.amount": "updateAmoritization",
     "form.term": "updateAmoritization",
   },
+  // mounted() {
+  //   axios.get("http://localhost:3000/api/plans").then((response) => {
+  //     this.plans = response.data;
+  //   });
+  // },
   methods: {
     ...mapActions(["createCustomerLoan"]),
     updateAmoritization() {
-      this.form.amoritization = this.form.amount / this.form.term;
+      this.form.amoritization = this.form.amount / (this.form.term * 12);
     },
     submit() {
       this.createCustomerLoan(this.form)
@@ -100,31 +105,28 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 * {
   box-sizing: border-box;
 }
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
+
+/* Add a margin to the form to make it look better */
+.loan-customer-form {
+  margin: 20px;
 }
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 30px;
-}
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-input {
+
+/* Use the v-text-field component to render the amount, term, and amortization fields */
+v-text-field {
   margin: 5px;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
-  padding: 10px;
-  border-radius: 30px;
 }
+
+/* Use the v-select component to render the termOptions options */
+v-select {
+  margin: 5px;
+}
+
+/* Add a red background color to the error message */
 #error {
   color: red;
 }

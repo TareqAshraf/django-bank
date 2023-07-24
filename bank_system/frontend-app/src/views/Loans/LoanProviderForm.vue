@@ -1,33 +1,30 @@
 <template>
-  <div class="loan-customer-form">
-    <div>
-      <form @submit.prevent="submit">
-        <div>
-          <label for="amount">amount:</label>
-          <input type="number" name="amount" v-model="form.amount" />
-        </div>
+  <v-container>
+    <v-form @submit.prevent="submit">
+      <v-text-field
+        label="Amount"
+        name="amount"
+        v-model="form.amount"
+      ></v-text-field>
 
-        <!-- loan_plan -->
-        <div>
-          <label for="loan_plan">loan plan:</label>
-          <v-select
-            type="number"
-            name="loan_plan"
-            v-model="form.loan_plan"
-            :items="planOptions"
-          />
-        </div>
+      <!-- loan plan -->
+      <v-select
+        label="Loan Plan"
+        name="loan_plan"
+        v-model="form.loan_plan"
+        :items="planOptions"
+      ></v-select>
 
-        <button type="submit">Submit</button>
-      </form>
+      <v-btn type="submit">Submit</v-btn>
+    </v-form>
 
-      <p v-if="showError" id="error">Invalid data</p>
-    </div>
-  </div>
+    <p v-if="showError" id="error">Invalid data</p>
+  </v-container>
 </template>
-    
+
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "LoanProviderForm",
   components: {},
@@ -38,6 +35,17 @@ export default {
         loan_plan: null,
       },
       showError: false,
+      planOptions: [
+        {
+          name: "1 year",
+        },
+        {
+          name: "2 years",
+        },
+        {
+          name: "3 years",
+        },
+      ],
     };
   },
   computed: {
@@ -65,31 +73,28 @@ export default {
   },
 };
 </script>
-    
+
 <style scoped>
 * {
   box-sizing: border-box;
 }
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
+
+/* Add a margin to the form to make it look better */
+.loan-provider-form {
+  margin: 20px;
 }
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 30px;
-}
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-input {
+
+/* Use the v-text-field component to render the amount and loan_plan fields */
+v-text-field {
   margin: 5px;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
-  padding: 10px;
-  border-radius: 30px;
 }
+
+/* Use the v-select component to render the loan_plan options */
+v-select {
+  margin: 5px;
+}
+
+/* Add a red background color to the error message */
 #error {
   color: red;
 }

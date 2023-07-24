@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 # Create your models here.
 
@@ -27,11 +28,12 @@ class BankPersonnel(models.Model):
 
 class LoanPlan(models.Model):
     LOAN_TYPE_CHOICES = (
-        ('loan_provider', 'Loan Provider'),
-        ('loan_customer', 'Loan Customer'),
+        ("loan_provider", "Loan Provider"),
+        ("loan_customer", "Loan Customer"),
     )
 
     # bank_personnel = models.OneToOneField(BankPersonnel, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     min_amount = models.DecimalField(max_digits=10, decimal_places=2)
     max_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -42,16 +44,18 @@ class LoanPlan(models.Model):
 
 class LoanFund(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    loan_plan = models.ForeignKey(
-        LoanPlan, on_delete=models.CASCADE)
-    loan_provider = models.ForeignKey(
-        LoanProvider, on_delete=models.CASCADE)
+    amount_with_interest = models.DecimalField(max_digits=10, decimal_places=2)
+    loan_plan = models.ForeignKey(LoanPlan, on_delete=models.CASCADE)
+    loan_provider = models.ForeignKey(LoanProvider, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now=True)
+    ended_at = models.DateField(blank=True, null=True)
 
 
 class Loan(models.Model):
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_with_interest = models.DecimalField(max_digits=10, decimal_places=2)
     month_paid = models.DecimalField(max_digits=10, decimal_places=2)
-    loan_plan = models.ForeignKey(
-        LoanPlan, on_delete=models.CASCADE)
-    loan_customer = models.ForeignKey(
-        LoanCustomer, on_delete=models.CASCADE)
+    loan_plan = models.ForeignKey(LoanPlan, on_delete=models.CASCADE)
+    loan_customer = models.ForeignKey(LoanCustomer, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now=True)
+    ended_at = models.DateField(blank=True, null=True)
