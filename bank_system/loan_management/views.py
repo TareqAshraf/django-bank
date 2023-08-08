@@ -1,7 +1,7 @@
 # views.py
 
 from rest_framework import viewsets
-from .models import LoanProvider, LoanCustomer, BankPersonnel, LoanPlan, LoanFund, Loan
+from .models import LoanProvider, LoanCustomer, BankPersonnel, LoanPlan, LoanFund, Loan, Bank
 from .serializers import (
     LoanProviderSerializer,
     LoanCustomerSerializer,
@@ -9,6 +9,7 @@ from .serializers import (
     LoanPlanSerializer,
     LoanFundSerializer,
     LoanSerializer,
+    BankSerializer,
 )
 from rest_framework.response import Response
 from rest_framework import status
@@ -165,6 +166,10 @@ class LoanFundViewSet(viewsets.ModelViewSet):
             amount_with_interest=(total_amount),
         )
 
+
+class BankViewSet(viewsets.ModelViewSet):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
 
 class LoanViewSet(viewsets.ModelViewSet):
     queryset = Loan.objects.all()

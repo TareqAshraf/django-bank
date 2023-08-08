@@ -5,8 +5,15 @@ import datetime
 # Create your models here.
 
 
+class Bank(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class LoanProvider(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
@@ -14,6 +21,7 @@ class LoanProvider(models.Model):
 
 class LoanCustomer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username

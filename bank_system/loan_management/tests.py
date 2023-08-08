@@ -11,9 +11,11 @@ from loan_management.models import (
     LoanPlan,
     LoanFund,
     Loan,
+    Bank,
 )
 from loan_management.serializers import (
     LoanProviderSerializer,
+    BankSerializer,
 )
 
 
@@ -305,6 +307,54 @@ class LoanCustomerViewSetTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+
+class BankViewSetTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_create_bank_successfully(self):
+        """
+        Test that a bank can be created successfully.
+        """
+        data = {
+            "name": "Bank 1",
+        }
+        response = self.client.post(
+            "/api/banks/", data=data, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn("bank_id", response.data)
+
+    def test_retrieve_bank(self):
+        """
+        Test that a bank can be retrieved.
+        """
+        bank = Bank.objects.create(name="Bank 1")
+        response = self.client.get(f"/api/banks/{bank.id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, BankSerializer(bank).data)
+
+    def test_update_bank(self):
+        """
+        Test that a bank can be updated.
+        """
+        bank = Bank.objects.create(name="Bank 1")
+        data = {
+            "name": "Bank 2",
+        }
+        response = self.client.put(
+            f"/api/banks/{bank.id}/", data=data, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["name"], "Bank 2")
+
+    def test_delete_bank(self):
+        """
+        Test that a bank can be deleted.
+        """
+        bank = Bank.objects.create(name="Bank 1")
+        response = self.client.delete(f"/api/banks/{bank.id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 class LoanProviderViewSetTest(TestCase):
     def setUp(self):
